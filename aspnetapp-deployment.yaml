@@ -1,0 +1,38 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: aspnetapp-deployment
+    labels:
+        app: aspnetapp
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: aspnetapp
+    template:
+        metadata:
+            labels:
+                app: aspnetapp
+        specs:
+            containers:
+            -   name: aspnetapp
+                image: svspriyan/aspnetapp
+                ports:
+                -   containerPort: 80
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: aspnetapp
+spec:
+    type: LoadBalancer
+    ports:
+    -   port: 80
+    selector:
+        app: aspnetapp
+        
