@@ -10,7 +10,7 @@ metadata:
     labels:
         app: aspnetapp-azure
 spec:
-    replicas: 2
+    replicas: 1
     selector:
         matchLabels:
             app: aspnetapp-azure
@@ -18,13 +18,15 @@ spec:
         metadata:
             labels:
                 app: aspnetapp-azure
-        specs:
+        spec:
+            nodeSelector:
+                "aspnetapp-devops-d1e2ead6.hcp.eastus.azmk8s.io/os": linux
             containers:
-            -   name: aspnetapp-azure
+            -   name: aspnetapp
                 image: svspriyan.azurecr.io/aspnetapp
                 ports:
                 -   containerPort: 80
-
+---
 apiVersion: v1
 kind: Service
 metadata:
